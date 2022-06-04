@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
-  before_action :authorize_request, except: :create
+  unless Rails.env.test?
+    before_action :authorize_request, except: :create
+  end
 
   #GET /users
   def index
@@ -17,7 +19,7 @@ class UsersController < ApplicationController
   def create
     @user = UserServices::CreateUserService.call(user_params[:name],user_params[:password],user_params[:password_confirmation],user_params[:email],user_params[:cpf])
     
-    return render json: {errors: @user.errors}, status: :internal_server_error unless @user.success?
+    return render json: {errors: @user.errors}, status: :unprocessable_entity unless @user.success?
     
     render json: @user.result, status: :created
   end
