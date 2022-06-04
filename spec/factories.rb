@@ -1,9 +1,10 @@
 FactoryBot.define do
     factory :user do
-      name { "Factory tes" }
-      email { "factory@mail.com" }
-      password { "123456Ff"}
-      password_confirmation { "123456Ff"}
-      cpf { "65221891352"}
+      
+      sequence(:name) { |n| "user#{n}" }
+      sequence(:email) { |n| "user#{n}@example.com" }
+      sequence(:cpf) { Faker::CPF.numeric }
+      password { "Password3" }
+      password_confirmation {'Password3'}
     end
   end
