@@ -17,20 +17,14 @@ class UsersController < ApplicationController
 
   #POST /users
   def create
-    @user = UserServices::CreateUserService.call(user_params[:name],user_params[:password],user_params[:password_confirmation],user_params[:email],user_params[:cpf])
-    
-    return render json: {errors: @user.errors}, status: :unprocessable_entity unless @user.success?
-    
-    render json: @user.result, status: :created
+    @service = UserServices::Create.call(user_params)
+    render_service
   end
 
   #PUT /users/id
   def update
-    @user = UserServices::UpdateUserService.call(params[:id],user_params)
-    
-    return render json: {errors: @user.errors}, status: :internal_server_error unless @user.success?
-    
-    render json: @user.result, status: :ok
+    @service = UserServices::Update.call(params[:id],user_params)
+    render_service
   end
 
   #DELETE /users/{id}
@@ -41,6 +35,14 @@ class UsersController < ApplicationController
   end
 
   private
+
+  def render_service
+    if @service.success?
+      render json: @service.result, status: :ok
+    else
+      render json: {  **@service.errors }, status: :unprocessable_entity
+    end
+  end
 
   def user_params
     params.permit(
