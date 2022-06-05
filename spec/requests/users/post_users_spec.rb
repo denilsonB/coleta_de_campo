@@ -1,27 +1,50 @@
 require 'rails_helper'
 
-RSpec.describe "User", type: :request do
-    describe 'POST /create' do
-        context "with valid parameters" do 
-            let!(:my_user) {FactoryBot.create(:user)}
-        
-            before do
-                post '/users', params:
-                            { 
-                                name: my_user.name,
-                                password: my_user.password,
-                                password_confirmation: my_user.password_confirmation,
-                                email: my_user.email,
-                                cpf: my_user.cpf
-                            } 
-            end
-        it "returns the name " do
-            #byebug
-            #expect(response).to eq(json)
+RSpec.describe 'Users', type: :request do
+  
+  context 'Creating a new user' do
+    describe 'POST User Create', type: :request do
+      before do
+        post '/users', params: {
+            name: 'test rspec',
+            password: '123456tT',
+            password_confirmation: '123456tT',
+            email: 'emailtest@mail.com',
+            cpf: '55609041201'
+        }
+      end
+
+      it 'is valid with status code 200' do
+        p json
+        expect(response).to have_http_status(:ok)
+      end
+      
+      it "returns the name" do
+        expect(json['name']).to eq('test rspec')
+      end
+
+      it "returns the email" do
+        expect(json['email']).to eq('emailtest@mail.com')
+      end
+
+      it "returns the cpf" do
+        expect(json['cpf']).to eq('55609041201')
+      end
+    end
+    context "with invalid params" do 
+        before do
+            post '/users', params: {
+                name: 'test rspec',
+                password: '123456tT',
+                password_confirmation: '123456tT',
+                email: '',
+                cpf: ''
+            }
+          end
+          it 'returns a unprocessable entity status' do
             p json
-            expect(response).to be_successful
-            #expect(json['email']).to eq(my_user.email)
+            expect(response).to have_http_status(:unprocessable_entity)
+          end
         end
-    end
-    end
+  end
 end
