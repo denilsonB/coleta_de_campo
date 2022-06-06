@@ -1,7 +1,9 @@
 class User < ApplicationRecord
+    has_many :visits
     has_secure_password
     acts_as_paranoid
-    
+
+
     PASSWORD_REQUIREMENTS = /\A 
     (?=.{6,}) #pelo menos 6 caracteres
     (?=.*\d)  #pelo menos 1 numero
