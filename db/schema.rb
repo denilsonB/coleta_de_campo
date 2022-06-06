@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_01_204712) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_06_173239) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -25,4 +25,18 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_01_204712) do
     t.index ["deleted_at"], name: "index_users_on_deleted_at"
   end
 
+  create_table "visits", force: :cascade do |t|
+    t.date "date"
+    t.integer "status", default: 0
+    t.bigint "user_id", null: false
+    t.datetime "checkin_at"
+    t.datetime "checkout_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_visits_on_deleted_at"
+    t.index ["user_id"], name: "index_visits_on_user_id"
+  end
+
+  add_foreign_key "visits", "users"
 end
