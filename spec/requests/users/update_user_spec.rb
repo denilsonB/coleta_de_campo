@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "User", type: :request do
     let!(:my_user) {FactoryBot.create(:user)}
 
-    context "Updating user name " do
+    context "Updating user information " do
         describe "PUT User update", type: :request do 
         before do
             put "/users/#{my_user.id}", params: {
