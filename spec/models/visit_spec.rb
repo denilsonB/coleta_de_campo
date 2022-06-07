@@ -5,11 +5,11 @@ RSpec.describe Visit, :type => :model do
 
     subject {
         described_class.new(
-            date: Date.tomorrow,
+            date: Date.current,
             status: 0,
             user_id: my_user.id,
-            checkin_at: "04-06-2022",
-            checkout_at: "05-06-2022")
+            checkin_at: 2.days.ago,
+            checkout_at: 1.day.ago)
     }
 
     describe "validations" do
