@@ -1,7 +1,6 @@
 class UsersController < ApplicationController
-  unless Rails.env.test?
-    before_action :authorize_request, except: :create
-  end
+  before_action :authorize_request, except: :create
+  before_action :verify_user, only: [:update, :destroy]
 
   #GET /users
   def index
@@ -35,6 +34,13 @@ class UsersController < ApplicationController
   end
 
   private
+
+  def verify_user
+    @user = User.find(params[:id])
+    unless @user == @current_user
+        render json: {"message":"User not allowed"}, status: :unauthorized
+    end
+  end    
 
   def render_service
     if @service.success?
