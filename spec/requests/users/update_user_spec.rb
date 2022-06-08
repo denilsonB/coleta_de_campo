@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "User", type: :request do
     let!(:my_user) {FactoryBot.create(:user)}
+    let!(:token) {JsonWebToken.encode(user_id: my_user.id)}
 
     context "Updating user information " do
         describe "PUT User update", type: :request do 
@@ -12,6 +13,8 @@ RSpec.describe "User", type: :request do
                     cpf: "90504530151",
                     password: my_user.password
                 
+            }, headers: {
+                "Authorization" => "#{token}"
             }
         end
         it "is valid with status code 200" do
@@ -37,6 +40,8 @@ RSpec.describe "User", type: :request do
                     name: "updated name",
                     email: "updated@mail.com",
                     cpf: "90504530151"
+            }, headers: {
+                "Authorization" => "#{token}"
             }
           end
           it 'returns a unprocessable entity status' do

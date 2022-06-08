@@ -2,10 +2,13 @@ require 'rails_helper'
 
 RSpec.describe 'Users', type: :request do
     describe "DELETE /destroy" do
-        let!(:user) {FactoryBot.create(:user)}
+        let!(:my_user) {FactoryBot.create(:user)}
+        let!(:token) {JsonWebToken.encode(user_id: my_user.id)}
 
         before do
-            delete "/users/#{user.id}"
+            delete "/users/#{my_user.id}", params: {format: :json}, headers: {
+                "Authorization" => "#{token}"
+            }
         end
 
         it "returns status code 200" do
