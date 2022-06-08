@@ -1,7 +1,5 @@
 class VisitsController < ApplicationController
-    unless Rails.env.test?
-        before_action :authorize_request
-    end
+    before_action :authorize_request
     before_action :current_user
     before_action :verify_creator, only: [:update, :destroy]
 
@@ -31,7 +29,6 @@ class VisitsController < ApplicationController
 
     #DELETE /visits/{id}
     def destroy
-        @visit = Visit.find(params[:id])
         @visit.destroy
         render json: {"message":"visit deleted with success!"}
     end
@@ -40,14 +37,14 @@ class VisitsController < ApplicationController
     def verify_creator
         @visit = Visit.find(params[:id])
         unless @visit.user == @current_user
-            render json: {"message":"User not allowed"}
+            render json: {"message":"User not allowed"}, status: :unauthorized
         end
     end       
     
     def current_user
         @user = User.find(params[:user_id])
         unless @user == @current_user
-            render json: {"message":"User not allowed"}
+            render json: {"message":"User not allowed "}, status: :unauthorized
         end
     end
 
