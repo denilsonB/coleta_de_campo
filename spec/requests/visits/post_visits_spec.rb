@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Visits', type: :request do
     let!(:my_user){FactoryBot.create(:user)}
+    let!(:token) {JsonWebToken.encode(user_id: my_user.id)}
 
     context 'Creating a new visit' do
         describe 'POST Visit Create', type: :request do
@@ -12,6 +13,8 @@ RSpec.describe 'Visits', type: :request do
                     user_id: my_user.id,
                     checkin_at: 2.days.ago,
                     checkout_at: 1.day.ago
+            },headers: {
+                "Authorization" => "#{token}"
             }
         end
         it 'is valid with status code 200' do
@@ -43,6 +46,8 @@ RSpec.describe 'Visits', type: :request do
                 user_id: my_user.id,
                 checkin_at: "",
                 checkout_at: ""
+        },headers: {
+            "Authorization" => "#{token}"
         }
         end
         it 'returns a unprocessable entity status' do

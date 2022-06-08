@@ -3,10 +3,13 @@ require 'rails_helper'
 RSpec.describe 'Visits', type: :request do
     let!(:my_user){FactoryBot.create(:user)}
     let!(:my_visit){ FactoryBot.create_list(:visit,10, user: my_user)}
+    let!(:token) {JsonWebToken.encode(user_id: my_user.id)}
 
     describe 'GET /index' do
         before do
-            get "/users/#{my_user.id}/visits"
+            get "/users/#{my_user.id}/visits", params: {format: :json}, headers: {
+                "Authorization" => "#{token}"
+            }
         end
 
         it "return all users" do
