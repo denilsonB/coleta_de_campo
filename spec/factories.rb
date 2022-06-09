@@ -14,7 +14,16 @@ FactoryBot.define do
       sequence(:checkin_at) {Faker::Time.between(from: 3.days.ago,to: 2.days.ago)}
       checkout_at {1.day.ago}
     end
+    
     factory :formulary do
       sequence(:name) { |n| "formulary#{n}" }
     end
+
+    factory :question do
+      sequence(:name) {|n| "question#{n}" }
+      association :formulary
+      question_type {1}
+      image {Rack::Test::UploadedFile.new("#{Rails.root}/spec/images/Question.png",'image/png')}
+    end
+
   end
