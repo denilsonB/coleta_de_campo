@@ -14,4 +14,7 @@ FactoryBot.define do
       sequence(:checkin_at) {Faker::Time.between(from: 3.days.ago,to: 2.days.ago)}
       checkout_at {1.day.ago}
     end
+    factory :formulary do
+      sequence(:name) { |n| "formulary#{n}" }
+    end
   end
