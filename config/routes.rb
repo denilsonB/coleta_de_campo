@@ -6,7 +6,9 @@ Rails.application.routes.draw do
   resources :users do
     resources :visits
   end
-  resources :formularies
+  resources :formularies do
+    resources :questions 
+  end
   
   post '/auth/login', to: 'authentication#login'
 end
