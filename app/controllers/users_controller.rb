@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :authorize_request, except: :create
-  before_action :verify_user, only: [:update, :destroy]
+  before_action :verify_information, only: [:update, :destroy]
 
   #GET /users
   def index
@@ -35,7 +35,7 @@ class UsersController < ApplicationController
 
   private
 
-  def verify_user
+  def verify_information
     @user = User.find(params[:id])
     unless @user == @current_user
         render json: {"message":"User not allowed"}, status: :unauthorized

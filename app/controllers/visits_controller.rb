@@ -1,7 +1,7 @@
 class VisitsController < ApplicationController
     before_action :authorize_request
     before_action :current_user
-    before_action :verify_creator, only: [:update, :destroy]
+    before_action :verify_information, only: [:update, :destroy]
 
     #GET /visits
     def index
@@ -34,7 +34,7 @@ class VisitsController < ApplicationController
     end
     
     private
-    def verify_creator
+    def verify_information
         @visit = Visit.find(params[:id])
         unless @visit.user == @current_user
             render json: {"message":"User not allowed"}, status: :unauthorized

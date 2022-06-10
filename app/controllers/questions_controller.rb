@@ -1,7 +1,8 @@
 class QuestionsController < ApplicationController
     before_action :authorize_request
     before_action :current_form
-    
+    before_action :verify_information, only: [:update, :destroy]
+
     #GET /questions
     def index
         @questions = @formulary.questions
@@ -37,7 +38,13 @@ class QuestionsController < ApplicationController
 
     def current_form
         @formulary = Formulary.find(params[:formulary_id])
-        params[:formulary_id] = @formulary.id
+    end
+
+    def verify_information
+        @question = Question.find(params[:id])
+        unless @question.formulary == @formulary
+            render json: {"message":"Invalid url"}, status: :bad_request
+        end
     end
 
     def render_service
