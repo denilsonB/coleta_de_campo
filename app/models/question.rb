@@ -2,6 +2,7 @@ class Question < ApplicationRecord
   acts_as_paranoid
   belongs_to :formulary
   has_one_attached :image
+  has_one :answer
   
   enum question_type: {TEXTO: 0, FOTO: 1, }
   validates :image, presence: true, if: -> {question_type == "FOTO"}
