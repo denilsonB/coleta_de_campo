@@ -26,4 +26,11 @@ FactoryBot.define do
       image {Rack::Test::UploadedFile.new("#{Rails.root}/spec/images/Question.png",'image/png')}
     end
 
+    factory :answer do 
+      sequence(:content) {Faker::Lorem.sentence}
+      association :formulary
+      association :question
+      association :visit
+      answered_at {Time.current}
+    end
   end
