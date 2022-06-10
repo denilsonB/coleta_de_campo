@@ -7,7 +7,9 @@ Rails.application.routes.draw do
     resources :visits
   end
   resources :formularies do
-    resources :questions 
+    resources :questions do
+      resources :answers, only: %i[index create update destroy]
+    end
   end
   
   post '/auth/login', to: 'authentication#login'
