@@ -4,7 +4,10 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
   resources :users do
-    resources :visits
+    resources :visits do
+      post 'checkin', on: :member
+      post 'checkout', on: :member
+    end
   end
   resources :formularies do
     resources :questions do
