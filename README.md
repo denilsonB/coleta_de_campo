@@ -8,7 +8,7 @@ existem direcionadas a ela
 data de checkin e checkout e usuário responsável por aquela visita
 - Formulário: são questionários que englobam várias perguntas específicas de algum
 assunto
-- Perguntas: são as perguntas do formulario
+- Perguntas: são as perguntas do formulário
 - Respostas: são as respostas das perguntas
 
 ## fluxo de testes
