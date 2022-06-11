@@ -5,19 +5,22 @@ class AnswersController < ApplicationController
 
     #GET /answers
     def index
-        @answer = @question.answer
+        @answer = @question.answers
+
         render json: @answer, status: :ok
     end
 
     #POST /answers
     def create
         @service = AnswerServices::Create.call(answer_params)
+
         render_service
     end
     
     #PUT /answers/{id}
     def update
         @service = AnswerServices::Update.call(params[:id],answer_params)
+
         render_service
     end
 
@@ -25,10 +28,12 @@ class AnswersController < ApplicationController
     def destroy
         @answer = Answer.find(params[:id])
         @answer.destroy
+
         render json: {"message":"answer deleted with success!"}
     end
 
-    private 
+    private
+
     def current_question
         @formulary = Formulary.find(params[:formulary_id])
         @question = @formulary.questions.find(params[:question_id])
@@ -36,7 +41,7 @@ class AnswersController < ApplicationController
 
     def verify_information
         @answer = Answer.find(params[:id])
-        unless @answer.formulary == @formulary && @answer.question==@question
+        unless VerificationServices::Verify.call(@answer.formulary,@formulary).result && VerificationServices::Verify.call(@answer.question,@question).result
             render json: {"message":"Invalid url"}, status: :bad_request
         end
     end

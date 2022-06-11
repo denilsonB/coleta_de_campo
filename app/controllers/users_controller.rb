@@ -5,24 +5,28 @@ class UsersController < ApplicationController
   #GET /users
   def index
     @users = User.all
+
     render json: @users, status: :ok
   end
 
   #GET /users/{id}
   def show
     @user = User.find(params[:id])
+
     render json: @user, status: :ok
   end
 
   #POST /users
   def create
     @service = UserServices::Create.call(user_params)
+
     render_service
   end
 
   #PUT /users/id
   def update
     @service = UserServices::Update.call(params[:id],user_params)
+
     render_service
   end
 
@@ -30,6 +34,7 @@ class UsersController < ApplicationController
   def destroy
     @user = User.find(params[:id])
     @user.destroy
+    
     render json: {"message":"user deleted with success!"}
   end
 
@@ -37,8 +42,8 @@ class UsersController < ApplicationController
 
   def verify_information
     @user = User.find(params[:id])
-    unless @user == @current_user
-        render json: {"message":"User not allowed"}, status: :unauthorized
+    unless VerificationServices::Verify.call(@user,@current_user).result
+        render json: {"message":"Invalid request"}, status: :bad_request
     end
   end    
 
