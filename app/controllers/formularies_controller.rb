@@ -4,24 +4,28 @@ class FormulariesController < ApplicationController
     #GET /formularies
     def index
         @formularies = Formulary.all
+
         render json: @formularies, status: :ok
     end
 
     #GET /formularies/{id}
     def show
         @formulary = Formulary.find(params[:id])
+
         render json: @formulary, status: :ok
     end
 
     #POST /formularies
     def create
         @service = FormularyServices::Create.call(formulary_params)
+
         render_service
     end
 
     #PUT /formularies/{id}
     def update
         @service = FormularyServices::Update.call(params[:id],formulary_params)
+        
         render_service
     end
 
