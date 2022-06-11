@@ -8,4 +8,12 @@ class Visit < ApplicationRecord
   validates :checkin_at, date: {before: Proc.new {DateTime.current}}
   validates :checkin_at, date: {before: Proc.new {|obj| obj.checkout_at}}
   validates :checkout_at, date: {after: Proc.new {|obj| obj.checkin_at}}
+
+  def checkin
+    update_attribute(:checkin_at,DateTime.current)
+  end
+  
+  def checkout
+    update_attribute(:checkout_at,DateTime.current)
+  end
 end
