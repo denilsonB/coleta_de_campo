@@ -60,6 +60,14 @@ gem "cpf_faker"
 
 gem "date_validator"
 
+# GraphQL
+
+gem 'graphql', '~> 1.12', '>= 1.12.14'
+gem 'sass-rails'
+
+# GraphiQL get Schema
+gem 'graphiql-rails', '~> 1.8'
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
