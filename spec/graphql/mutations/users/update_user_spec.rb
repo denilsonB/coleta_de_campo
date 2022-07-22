@@ -20,6 +20,10 @@ module Mutations
                         'cpf' => '90504530151'
                     )
                 end
+                it 'is valid with no errors' do 
+                    data = json['data']['updateUser']
+                    expect(data.dig('errors')).to be_nil
+                end
             end
 
             def query(id:)
