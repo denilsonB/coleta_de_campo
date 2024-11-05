@@ -1,4 +1,4 @@
-# projeto_estagio_tt
+# coleta de campo
 O projeto simula o fluxo de um sistema de coleta em campo e visa organizar os dados coletados
 
 ## entidades
